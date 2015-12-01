@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS qmim.stocks (
 	exchange_id INT NOT NULL,
 	company_id INT NOT NULL,
 	PRIMARY KEY (id),
-	KEY (ticker), -- UNIQUE?
+	KEY (ticker),
 	FOREIGN KEY (exchange_id) REFERENCES qmim.exchanges (id),
 	FOREIGN KEY (company_id) REFERENCES qmim.companies (id));
 
@@ -55,11 +55,12 @@ CREATE TABLE IF NOT EXISTS qmim.indexes (
 	ticker VARCHAR(255) NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	PRIMARY KEY (id),
-	KEY (ticker));
+	UNIQUE KEY (ticker));
 
 CREATE TABLE IF NOT EXISTS qmim.constituents (
 	stock_id INT NOT NULL,
 	index_id INT NOT NULL,
 	year YEAR NOT NULL,
 	FOREIGN KEY (stock_id) REFERENCES qmim.stocks (id),
-	FOREIGN KEY (index_id) REFERENCES qmim.indexes (id));
+	FOREIGN KEY (index_id) REFERENCES qmim.indexes (id),
+	INDEX (year));
