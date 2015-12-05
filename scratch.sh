@@ -14,7 +14,7 @@
 
 # echo 'SELECT sector_name, ticker FROM sample_stocks ORDER BY sector_name ASC, ticker ASC' | mysql -uroot -p'(g37704d' qmim | tr '\t' ',' > data/sample_stocks.csv
 
-# echo 'SELECT ticker, date, open, close FROM sample_stock_prices ORDER BY ticker ASC, date ASC' | mysql -uroot -p'(g37704d' qmim | tr '\t' ',' > data/sample_stock_prices.csv
+echo 'SELECT date, ticker, close FROM sample_stock_prices ORDER BY date ASC' | mysql -uroot -p'(g37704d' qmim | tr '\t' ',' > data/sample_stock_prices.csv
 
 # echo 'SELECT ticker, sp500_years FROM sample_stocks ORDER BY ticker ASC' | mysql -uroot -p'(g37704d' qmim | tr '\t' ';' > data/sample_stocks.csv
 
@@ -27,3 +27,9 @@
 # echo 'SELECT s.id, s.ticker FROM stock_prices AS p INNER JOIN stocks AS s ON s.id = p.stock_id WHERE p.date = "2000-09-04"' | mysql -uroot -p'(g37704d' qmim
 
 # echo 'SELECT COUNT(s.ticker), s.ticker, e.name, c.name FROM stocks AS s INNER JOIN exchanges AS e ON e.id = s.exchange_id INNER JOIN companies AS c ON c.id = s.company_id GROUP BY s.ticker HAVING COUNT(s.ticker) > 1' | mysql -uroot -p'(g37704d' qmim
+
+# time tail +2 data/sample_stock_prices.csv | ./pivot_sample_stock_prices.pl > data/sample_stock_prices_pivoted.csv
+
+
+echo 'SELECT stock_ticker FROM constituents_raw WHERE year BETWEEN 2000 AND 2015 AND stock_ticker NOT IN (SELECT ticker FROM stocks) GROUP BY stock_ticker' | mysql -uroot -p'(g37704d' qmim | tr '\t' ',' | tail +2
+

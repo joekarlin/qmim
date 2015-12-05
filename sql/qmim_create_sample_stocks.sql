@@ -11,8 +11,6 @@ INSERT INTO qmim.sample_stocks
 SELECT c.stock_id, s.ticker, GROUP_CONCAT(c.year ORDER BY c.year ASC SEPARATOR ',')
 FROM qmim.constituents AS c
 INNER JOIN qmim.stocks AS s ON c.stock_id = s.id
-INNER JOIN qmim.exchanges AS e ON s.exchange_id = e.id
 WHERE c.index_id = (SELECT id FROM qmim.indexes WHERE ticker = '^GSPC')
 	AND c.year >= 2000
-	AND e.name = 'NYSE'
 GROUP BY c.stock_id
